@@ -24,10 +24,18 @@ header("Access-Control-Allow-Headers: *");
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+        // Route::get('profiles', [ProfileController::class, 'listProfiles']);
+
 });
 Route::group(['middleware' => ['cors']], function() {
+    Route::post('auth', [AuthController::class, 'auth']);
+   
+});
+
+
+
+Route::group(['middleware' => ['cors','jwt']], function() {
     Route::post('profile', [ProfileController::class, 'uploadProfile']);
     Route::get('profiles', [ProfileController::class, 'listProfiles']);
-    Route::post('auth', [AuthController::class, 'auth']);
    
 });

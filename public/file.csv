@@ -1,2 +1,3 @@
-name,email,phone,gender,nationality,dob,contactmode,education
-binita,binitaluitel23@mail.com,8989898,male,nepali,2021-8-12,email,"[""BCA-MBA""]"
+name,email,phone,gender,nationality,dob,contactmode,education,avatar
+nirajan,niraj@email.com,898989,male,n,undefined-undefined-undefined,email,"[{""name"":""BCA"",""label"":""BA""}]",avatars/611a72ef9291f.png
+Ravi,ravi@ravi.rer,898989,male,nepali,2021-8-5,email,"[{""name"":""nnn"",""label"":""nn""}]",

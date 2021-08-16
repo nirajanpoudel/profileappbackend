@@ -4,21 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
+use App\FileUpload;
 class ProfileController extends Controller
 {
     public function uploadProfile(ProfileRequest $request){
-       
         $data= $request->all();
-        $fp = fopen('file.csv', 'a+');
-        $educationBackgrounds = [];
-        foreach($data['educationBackgrounds'] as $key=>$value){
-            $educationBackgrounds[] = implode('-',$value);
+        $data['avatar'] = '';
+        if($request->hasFile('avatar')){
+            $data['avatar'] = FileUpload::upload($request->file('avatar'))
+                ->storeAs(('avatars'));
         }
-        unset($data['avatar']);
-        if(count($educationBackgrounds))
-            $data['educationBackgrounds'] =  json_encode($educationBackgrounds);
-        else
-           $data['educationBackgrounds'] = ''; 
+
+        $fp = fopen('file.csv', 'a+');         
         fputcsv($fp, $data);
         fclose($fp);
     }
@@ -32,21 +29,30 @@ class ProfileController extends Controller
                 if($row==0){
                     $column = ($data);
                 }else{
-                
                     for ($c=0; $c < $num; $c++) {
                         $r= $data[$c];
                     }
-
                     $response[] = array_combine($column,$data);
-                    
                 }
                 $row++;
             }
             fclose($handle);
         }
-        //if($row>1){
+
+        foreach ($response as $key => $value) {
+            // dd($value)
+            $value["avatar"] = url($value["avatar"]);
+            // dd($response);
+        }
+
+        $response = array_map(function($value){
+            if($value["avatar"])
+                $value["avatar"]= url("storage/".$value["avatar"]);
+            return $value;
+        },$response);
+
+
             return response()->json($response);
-        //}
         
     }
 }

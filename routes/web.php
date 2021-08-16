@@ -1,4 +1,7 @@
 <?php
+use Illuminate\Support\Str;
+
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,5 +15,7 @@
 */
 
 Route::get('/', function () {
+    return  Hash::make('123456');
+    // return Str::random(60);
     return view('welcome');
 });
